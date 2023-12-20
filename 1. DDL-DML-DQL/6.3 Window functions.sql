@@ -1,0 +1,29 @@
+--Window functions
+
+SELECT *, MAX(Salary) OVER () AS MAX_SALARY FROM Users
+
+SELECT *, MAX(Salary) OVER (PARTITION BY City) AS MAX_SALARY FROM Users
+
+SELECT *, ROW_NUMBER() 
+OVER (PARTITION BY DepartmentId ORDER BY Salary DESC) AS rn FROM Users
+
+
+SELECT *, ROW_NUMBER() 
+OVER (PARTITION BY DepartmentId ORDER BY Salary DESC) AS rn FROM Users
+
+--RANK
+
+SELECT *, RANK() 
+OVER (ORDER BY Salary DESC) AS rnk FROM Users
+
+SELECT *, RANK() 
+OVER (PARTITION BY City ORDER BY Salary DESC) AS rnk FROM Users
+
+
+SELECT * FROM (
+	SELECT *, RANK() 
+	OVER (PARTITION BY City ORDER BY Salary DESC) AS rnk FROM Users
+)e WHERE e.rnk < 3
+
+SELECT *, DENSE_RANK() 
+OVER (ORDER BY Salary DESC) AS rnk FROM Users
